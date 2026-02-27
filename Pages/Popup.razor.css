@@ -2,13 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    cursor:default;
+    cursor: default;
 }
 
 body {
     background: white;
-    margin: 0;
-    padding: 0;
 }
 
 .terminal {
@@ -18,7 +16,6 @@ body {
 }
 
 .terminal-header {
-    background: #0d111700;
     padding: 5px 12px;
     display: flex;
     align-items: center;
@@ -29,37 +26,24 @@ body {
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    transition: 0.3s;
 }
 
     .dot.red {
         background: #ff5f56;
-        transition: 0.3s;
     }
-
-        .dot.red:hover {
-            opacity: 0.5;
-            transition: 0.3s;
-        }
 
     .dot.yellow {
         background: #ffbd2e;
-        transition: 0.3s;
     }
-
-        .dot.yellow:hover {
-            opacity: 0.5;
-            transition: 0.3s;
-        }
 
     .dot.green {
         background: #27c93f;
-        transition: 0.3s;
     }
 
-        .dot.green:hover {
-            opacity: 0.5;
-            transition: 0.3s;
-        }
+    .dot:hover {
+        opacity: 0.5;
+    }
 
 .title {
     color: #ffffff7d;
@@ -74,7 +58,6 @@ body {
 
     .title:hover {
         color: #88c900;
-        transition: 0.5s;
     }
 
 .spacer {
@@ -147,9 +130,9 @@ body {
 }
 
     .slider::-webkit-slider-thumb {
-        backdrop-filter: blur(1px);
         -webkit-appearance: none;
         appearance: none;
+        backdrop-filter: blur(1px);
         width: 30px;
         height: 13px;
         border-radius: 2px;
@@ -157,11 +140,6 @@ body {
         cursor: pointer;
         transition: transform 0.15s ease;
     }
-
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.15);
-            background: #79c0ff;
-        }
 
     .slider::-moz-range-thumb {
         backdrop-filter: blur(1px);
@@ -173,6 +151,7 @@ body {
         transition: transform 0.15s ease;
     }
 
+        .slider::-webkit-slider-thumb:hover,
         .slider::-moz-range-thumb:hover {
             transform: scale(1.15);
             background: #79c0ff;
@@ -217,30 +196,50 @@ body {
     left: 8rem;
 }
 
-.reverb-box {
-    border: solid 1px #324900;
+/* Shared base for action boxes */
+.reverb-box,
+.reset-box,
+.pitch-box {
     border-radius: 25px;
     height: 19px;
-    width: 49px;
-    color: #324900;
     cursor: pointer;
     transition: 0.5s;
     align-content: center;
 }
 
-    .reverb-box h1 {
+    .reverb-box h1,
+    .reset-box h1,
+    .pitch-box h1 {
         text-align: center;
         font-size: 10px;
         font-weight: 900;
-        cursor: pointer;
-        transition: 0.5s;
     }
 
-    .reverb-box:hover {
+    .reverb-box:hover,
+    .reset-box:hover,
+    .pitch-box:hover {
         border: solid 1px #88c900;
         color: #88c900;
-        transition: 0.5s;
     }
+
+/* Individual box overrides */
+.reverb-box {
+    border: solid 1px #324900;
+    width: 49px;
+    color: #324900;
+}
+
+.reset-box {
+    border: solid 1px #c04040;
+    width: 49px;
+    color: #c04040;
+}
+
+.pitch-box {
+    border: solid 1px #324900;
+    width: 153px;
+    color: #324900;
+}
 
 .active {
     color: #88c900;
@@ -254,53 +253,3 @@ body {
     opacity: 0.5;
     transition: 0.5s;
 }
-
-
-.reset-box {
-    border: solid 1px #c04040;
-    border-radius: 25px;
-    height: 19px;
-    width: 49px;
-    color: #c04040;
-    cursor: pointer;
-    transition: 0.5s;
-    align-content: center;
-}
-    .reset-box h1 {
-        text-align: center;
-        font-size: 10px;
-        font-weight: 900;
-        transition: 0.5s;
-        cursor: pointer;
-    }
-
-    .reset-box:hover {
-        border: solid 1px #88c900;
-        color: #88c900;
-        transition: 0.5s;
-    }
-
-.pitch-box {
-    border: solid 1px #324900;
-    border-radius: 25px;
-    height: 19px;
-    width: 153px;
-    color: #324900;
-    cursor: pointer;
-    transition: 0.5s;
-    align-content: center;
-}
-
-    .pitch-box h1 {
-        text-align: center;
-        font-size: 10px;
-        font-weight: 900;
-        transition: 0.5s;
-        cursor: pointer;
-    }
-
-    .pitch-box:hover {
-        border: solid 1px #88c900;
-        color: #88c900;
-        transition: 0.5s;
-    }

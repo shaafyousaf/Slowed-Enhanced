@@ -1,6 +1,4 @@
-﻿
-
-.terminal {
+﻿.terminal {
     width: 70dvw;
     height: 70dvh;
     background: #000000;
@@ -11,7 +9,6 @@
 }
 
 .terminal-header {
-    background: #ffffff00;
     padding: 12px 16px;
     display: flex;
     align-items: center;
@@ -49,11 +46,14 @@
 
     .title:hover {
         color: #88c900;
-        transition: 0.5s;
     }
+
+/* Merged from two .terminal-body declarations */
 .terminal-body {
-    padding: 24px;
-    position: relative;
+    padding: 0;
+    color: #c9d1d9;
+    display: flex;
+    font-family: 'Futura Cyrillic';
     height: calc(70dvh - 60px);
 }
 
@@ -72,10 +72,7 @@
     color: #ff7b72;
 }
 
-.variable {
-    color: #79c0ff;
-}
-
+.variable,
 .property {
     color: #79c0ff;
 }
@@ -84,10 +81,7 @@
     color: #a5d6ff;
 }
 
-.function {
-    color: #d2a8ff;
-}
-
+.function,
 .method {
     color: #d2a8ff;
 }
@@ -113,12 +107,6 @@
     .code {
         font-size: 12px;
     }
-}
-.terminal-body {
-    padding: 0;
-    color: #c9d1d9;
-    display: flex;
-    font-family: 'Futura Cyrillic'
 }
 
 .hero-section {
@@ -218,7 +206,7 @@
     font-weight: 600;
     color: #ffffff;
     letter-spacing: -0.01em;
-    font-family: 'Futura Cyrillic'
+    font-family: 'Futura Cyrillic';
 }
 
 .features-grid {
@@ -228,21 +216,27 @@
     flex: 1;
 }
 
-.feature-card {
+/* Shared base for feature-card and spec-item */
+.feature-card,
+.spec-item {
     background: rgba(121, 192, 255, 0.03);
-    padding: 24px;
     border-radius: 8px;
     border: 1px solid rgba(121, 192, 255, 0.1);
     transition: all 0.3s ease;
+}
+
+    .feature-card:hover,
+    .spec-item:hover {
+        background: rgba(121, 192, 255, 0.08);
+        border-color: rgba(121, 192, 255, 0.3);
+        transform: translateX(4px);
+    }
+
+.feature-card {
+    padding: 24px;
     display: flex;
     align-items: center;
     gap: 20px;
-}
-
-.feature-card:hover {
-    background: rgba(121, 192, 255, 0.08);
-    border-color: rgba(121, 192, 255, 0.3);
-    transform: translateX(4px);
 }
 
 .feature-label {
@@ -283,20 +277,10 @@
 }
 
 .spec-item {
-    background: rgba(121, 192, 255, 0.03);
     padding: 20px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.3s ease;
-    border-radius: 8px;
-    border: 1px solid rgba(121, 192, 255, 0.1);
-}
-
-.spec-item:hover {
-    background: rgba(121, 192, 255, 0.08);
-    border-color: rgba(121, 192, 255, 0.3);
-    transform: translateX(4px);
 }
 
 .spec-name {
@@ -339,6 +323,6 @@
     transition: color 0.2s ease;
 }
 
-.footer-link:hover {
-    color: #a5d6ff;
-}
+    .footer-link:hover {
+        color: #a5d6ff;
+    }
