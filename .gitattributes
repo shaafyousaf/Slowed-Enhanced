@@ -64,7 +64,5 @@
 
 # Treat all Razor components as C# code
 *.razor linguist-language="C#"
-# Hide CSS from language stats from bloating the repo
-*.css linguist-vendored=true
 
 
