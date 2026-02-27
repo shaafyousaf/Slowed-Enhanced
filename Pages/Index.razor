@@ -1,0 +1,130 @@
+﻿@page "/index.html"
+@inherits IndexPage
+<link href="SoundPitchExtension.styles.css" rel="stylesheet" />
+
+<div class="terminal">
+    <div class="terminal-header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <a class="title" href="https://shaafyousaf.me" target="_blank">made by Shaaf Yousaf</a>
+    </div>
+    <div class="terminal-body">
+       <div class="hero-section">
+    <div class="version-tag">V1.9.0</div>
+    <h1 class="hero-title">Slowed<br>Enhanced</h1>
+    <p class="hero-subtitle">Your audio toolkit is ready</p>
+    
+</div>
+
+        <div style="flex: 1; display: flex; flex-direction: column; overflow-y: scroll;     scrollbar-width: none;">
+    <div class="content-section" style="flex: 1;">
+        <div class="section-header">
+            <div class="section-number">01</div>
+            <h2 class="section-title">What's New</h2>
+        </div>
+        <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-label">New</div>
+                        <div class="feature-content">
+                            <div class="feature-name">Reset Button</div>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-label">New</div>
+                        <div class="feature-content">
+                            <div class="feature-name">Pitch Preserve Toggle</div>
+                        </div>
+                    </div>
+            <div class="feature-card">
+                <div class="feature-label">New</div>
+                <div class="feature-content">
+                    <div class="feature-name">Extra Reverb Options</div>
+                    <div class="feature-description">Cave, Studio, Stadium</div>
+                </div>
+            </div>
+                    
+            
+            <div class="feature-card">
+                <div class="feature-label">Updated</div>
+                <div class="feature-content">
+                    <div class="feature-name">New UI</div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+            
+
+    <div class="content-section" style="flex: 1;">
+        <div class="section-header">
+            <div class="section-number">02</div>
+            <h2 class="section-title">Core Features</h2>
+        </div>
+        <div class="specs-list">
+            <div class="spec-item">
+                <div class="spec-name">Reset</div>
+                <div class="spec-value">Instant</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-name">Volume</div>
+                <div class="spec-value">0–2x</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-name">Speed</div>
+                <div class="spec-value">0.5–2x</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-name">Reverb</div>
+                <div class="spec-value">3 modes</div>
+            </div>
+        </div>
+        <div class="footer-section">
+            <div class="footer-message">Thanks for installing</div>
+            <div class="footer-links">
+                <a href="https://linkedin.com/in/shaafyousaf" class="footer-link">LinkedIn</a>
+                <a href="https://shaafyousaf.me" class="footer-link">Portfolio</a>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(45deg, black, #434c7e54, #001b34);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        background-size: 400% 400%;
+        justify-content: center;
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        padding: 20px;
+        animation: backBodyAnim 15s infinite;
+    }
+
+    @@keyframes backBodyAnim {
+        0%
+
+    {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 0%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+
+    }
+</style>

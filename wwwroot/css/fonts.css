@@ -1,0 +1,67 @@
+﻿@font-face {
+    font-family: 'Brownist';
+    src: url('../fonts/Brownist.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JakartaSans';
+    src: url('../fonts/PlusJakartaSans-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Futura Cyrillic';
+    src: url('../fonts/FuturaCyrillicLight.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura Cyrillic';
+    src: url('../fonts/FuturaCyrillicBook.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura Cyrillic';
+    src: url('../fonts/FuturaCyrillicMedium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura Cyrillic';
+    src: url('../fonts/FuturaCyrillicDemi.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura Cyrillic';
+    src: url('../fonts/FuturaCyrillicHeavy.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura Cyrillic';
+    src: url('../fonts/FuturaCyrillicBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+
+
+@font-face {
+    font-family: 'Futura Cyrillic';
+    src: url('../fonts/FuturaCyrillicExtraBold.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
