@@ -64,5 +64,3 @@
 
 # Treat all Razor components as C# code
 *.razor linguist-language="C#"
-
-
