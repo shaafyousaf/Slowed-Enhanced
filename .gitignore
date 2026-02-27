@@ -3,8 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# Mark CSS files as documentation or generated so they don't count
-*.css linguist-vendored
 
 # User-specific files
 *.rsuser
