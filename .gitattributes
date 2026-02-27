@@ -65,4 +65,5 @@
 
 # Mark CSS files as documentation or generated so they don't count
 *.css linguist-vendored
+*.html linguist-vendored
 
