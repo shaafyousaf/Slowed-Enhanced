@@ -63,10 +63,9 @@
 #*.RTF   diff=astextplain
 
 # Treat all Razor components as C# code
-*.razor linguist-language=C#
-
-# Mark CSS files as documentation or generated so they don't count
-*.html linguist-vendored
-*.css linguist-vendored
+*.razor linguist-language="C#"
+# Hide HTML/CSS from language stats
+*.html linguist-vendored=true
+*.css linguist-vendored=true
 
 
