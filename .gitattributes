@@ -64,8 +64,5 @@
 
 # Treat all Razor components as C# code
 *.razor linguist-language="C#"
-# Hide HTML/CSS from language stats
-*.html linguist-vendored=true
-*.css linguist-vendored=true
 
 
