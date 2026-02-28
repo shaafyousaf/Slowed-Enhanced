@@ -45,7 +45,7 @@ This is the **only free Chrome extension** that does this live, in-browser, with
 | Extension Runtime | Chrome Extensions Manifest V3 |
 | Audio Engine | Web Audio API |
 | Time-Stretching | Granular synthesis / Phase Vocoder |
-| UI | Vanilla JS + HTML/CSS |
+| UI | C# + Vanilla JS + HTML/CSS |
 | Build | Lightweight, no bundler required |
 | Distribution | Chrome Web Store (13MB) |
 
