@@ -14,6 +14,6 @@ git clone https://github.com/shaafyousaf/Slowed-Enhanced.git
 # chrome://extensions/ → Enable Developer Mode → Load Unpacked
 ```
 
-Browse open [issues](https://github.com/shaafyousaf/Slowed-Enhanced/issues) or visit [shaafyousaf.me](https://www.shaafyousaf.com) to learn more.
+Browse open [issues](https://github.com/shaafyousaf/Slowed-Enhanced/issues) or visit [shaafyousaf.com](https://www.shaafyousaf.com) to learn more.
 
 MIT Licensed.
