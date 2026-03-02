@@ -1,8 +1,8 @@
 ﻿{
   "manifest_version": 3,
-  "name": "Slowed Enchanced",
-  "description": "Modifies your sound and pitch according to your settings. Made by Shaaf Yousaf. (Find me at shaafyousaf.me)",
-  "version": "1.9.2",
+  "name": "Slowed Enhanced",
+  "description": "Modifies your sound and pitch according to your settings. Open Source. MIT Lisence. (Find me at shaafyousaf.com)",
+  "version": "1.9.3",
   "permissions": [ "scripting", "activeTab", "storage" ],
   "background": {
     "service_worker": "content/BackgroundWorker.js",
@@ -16,10 +16,6 @@
   },
   "action": {
     "default_popup": "popup.html"
-  },
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": true
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
