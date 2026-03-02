@@ -9,10 +9,10 @@ The only free, open-source Chrome extension that slows down browser audio in rea
 
 **Looking for contributors.** Vanilla JS + Web Audio API, no build step. Clone, load unpacked, and you're running in under a minute.
 
-​```bash
+```bash
 git clone https://github.com/shaafyousaf/Slowed-Enhanced.git
 # chrome://extensions/ → Enable Developer Mode → Load Unpacked
-​```
+```
 
 Browse open [issues](https://github.com/shaafyousaf/Slowed-Enhanced/issues) or visit [shaafyousaf.me](https://www.shaafyousaf.com) to learn more.
 
