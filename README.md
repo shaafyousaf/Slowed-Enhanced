@@ -5,7 +5,7 @@
 
 The only free, open-source Chrome extension that slows down browser audio in real-time with pitch preservation. Built on the Web Audio API using granular time-stretching — speech stays clear and natural at any speed, unlike the robotic output of native `HTMLMediaElement.playbackRate` resampling. Works on any browser media.
 
-722 installs and 67 active users across 3 continents since launch, with zero marketing. Built and maintained solo.
+1400+ installs and 100+ active users. Built and maintained solo.
 
 **Looking for contributors.** Vanilla JS + Web Audio API, no build step. Clone, load unpacked, and you're running in under a minute.
 
