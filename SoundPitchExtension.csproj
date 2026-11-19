@@ -13,6 +13,9 @@
   <ItemGroup>
     <Content Remove="wwwroot\Audio.js" />
     <Content Remove="wwwroot\content-script.js" />
+    <!-- Not service-worker code: keep these out of the background worker's auto-imports -->
+    <Content Remove="wwwroot\stretch-worklet.js" />
+    <Content Remove="wwwroot\popup-ui.js" />
     <Content Remove="wwwroot\fonts\Brownist.otf" />
     <Content Remove="wwwroot\fonts\FuturaCyrillicBold.ttf" />
     <Content Remove="wwwroot\fonts\FuturaCyrillicBook.ttf" />

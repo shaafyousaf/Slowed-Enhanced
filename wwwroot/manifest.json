@@ -1,8 +1,8 @@
 ﻿{
   "manifest_version": 3,
   "name": "Slowed Enhanced",
-  "description": "Modifies your sound and pitch according to your settings. Open Source. MIT Lisence. (Find me at shaafyousaf.com)",
-  "version": "1.9.3",
+  "description": "Modifies your sound and pitch according to your settings. Open Source. MIT License. (Find me at shaafyousaf.com)",
+  "version": "2.0.0",
   "permissions": [ "scripting", "activeTab", "storage" ],
   "background": {
     "service_worker": "content/BackgroundWorker.js",
@@ -14,6 +14,12 @@
     "48": "/icons/48.png",
     "128": "/icons/128.png"
   },
+  "web_accessible_resources": [
+    {
+      "resources": [ "stretch-worklet.js", "framework/*", "content/*" ],
+      "matches": [ "<all_urls>" ]
+    }
+  ],
   "action": {
     "default_popup": "popup.html"
   },

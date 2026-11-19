@@ -14,22 +14,41 @@
 
 <body>
     <div id="app">
-        <div style="width: 100%; height: 3px; background: rgba(255,255,255,0.1); overflow: hidden;">
-            <div style="height: 100%; width: 30%; background: linear-gradient(90deg, #667eea, #764ba2); animation: load 1.5s ease-in-out infinite;">
-            </div>
+        <!-- Shown until Blazor starts. Same size and look as the popup, so nothing jumps. -->
+        <div class="boot">
+            <div class="boot-title">Slowed Enhanced</div>
+            <div class="boot-bar"><i></i></div>
         </div>
         <style>
-            @keyframes load {
-                0%, 100% {
-                    width: 30%;
-                    transform: translateX(0);
-                }
-
-                50% {
-                    width: 50%;
-                    transform: translateX(100%);
-                }
+            .boot {
+                position: relative; width: 340px; height: 317px; margin: 0 auto; overflow: hidden;
+                display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+                background:
+                    radial-gradient(closest-side at 30% 35%, rgba(120, 176, 255, 0.18), transparent 80%),
+                    radial-gradient(closest-side at 80% 90%, rgba(120, 176, 255, 0.1), transparent 80%),
+                    #040405;
             }
+            .boot-title {
+                font-family: Brownist, 'Futura Cyrillic', sans-serif; font-weight: 400; font-size: 20px;
+                color: rgba(243, 244, 246, 0.85); text-shadow: 0 0 16px rgba(120, 176, 255, 0.5);
+                animation: boot-breathe 1.6s ease-in-out infinite;
+            }
+            .boot-bar { position: relative; width: 96px; height: 1px; overflow: hidden; background: rgba(243, 244, 246, 0.12); }
+            .boot-bar i {
+                position: absolute; top: 0; bottom: 0; width: 33%;
+                background: linear-gradient(90deg, transparent, #fff, transparent);
+                box-shadow: 0 0 8px rgba(120, 176, 255, 0.9);
+                animation: boot-sweep 1.2s ease-in-out infinite;
+            }
+            @keyframes boot-sweep { from { left: -33%; } to { left: 100%; } }
+            /* Full tab (welcome page) rather than the 340px popup: fill the window and scale up. */
+            @media (min-width: 600px) {
+                .boot { position: fixed; inset: 0; width: auto; height: auto; gap: 28px; }
+                .boot-title { font-size: clamp(48px, 9vw, 92px); }
+                .boot-bar { width: 180px; }
+            }
+            @keyframes boot-breathe { 50% { opacity: 0.55; } }
+            @media (prefers-reduced-motion: reduce) { .boot-bar i, .boot-title { animation: none; } }
         </style>
 
     </div>
@@ -41,6 +60,7 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="audio.js"></script>
+    <script src="popup-ui.js"></script>
     <script src="content-script.js"></script>
 </body>
 

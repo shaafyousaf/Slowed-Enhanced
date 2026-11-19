@@ -1,231 +1,113 @@
-﻿@page "/popup.html"
+@page "/popup.html"
 @inject IJSRuntime JSRuntime
 
-<div class="terminal">
-    <div class="terminal-header">
-        <span class="dot red" onclick="@(() => ChangeTheme(0))"></span>
-        <span class="dot yellow" onclick="@(() => ChangeTheme(1))"></span>
-        <span class="dot green"></span>
-        
-		<span class="spacer"></span>
-        <div class="reset-box" @onclick="resetAllSettings">
-            <h1>reset</h1>
-        </div>
-        <span class="version">v1.9</span>
-        <a class="title" href="https://shaafyousaf.com" target="_blank">Slowed Enhanced</a>
+<div class="shell">
+    <div class="haze" aria-hidden="true"></div>
+
+    <header class="top">
+        <a class="brand" href="https://shaafyousaf.com" target="_blank">Slowed Enhanced</a>
+        <span class="link @(showReconnect ? "off" : "")" role="img"
+              title="@(showReconnect ? "Not connected to this tab" : "Connected to this tab")"
+              aria-label="@(showReconnect ? "Not connected to this tab" : "Connected to this tab")">
+            @if (showReconnect)
+            {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m19 5 3-3M2 22l3-3" />
+                    <path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z" />
+                    <path d="M7.5 13.5 10 11M10.5 16.5 13 14" />
+                    <path d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z" />
+                </svg>
+            }
+            else
+            {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z" />
+                    <path d="m2 22 3-3M7.5 13.5 10 11M10.5 16.5 13 14" />
+                    <path d="m18 3-4 4h6l-4 4" />
+                </svg>
+            }
+        </span>
+        <button class="btn" data-click @onclick="resetAllSettings">RESET</button>
+    </header>
+
+    <div class="scope-wrap">
+        <canvas class="scope" aria-hidden="true"
+                data-speed="@Inv(speed)" data-vol="@Inv(volume)" data-rev="@Inv(reverb)"
+                data-pitch="@(preserverPitch ? "1" : "0")"></canvas>
+        @if (preserverPitch && speed < 1)
+        {
+            <span class="engine">BLEND</span>
+        }
     </div>
-    @if(currentTheme == 0)
+
+    <div class="modules">
+        <section class="module">
+            <div class="head">
+                <span class="label @Status(verror)">
+                    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" /></svg>VOLUME
+                </span>
+                <span class="readout @(volume == 1 ? "idle" : "")">@((volume * 100).ToString("0", Ci))<small>%</small></span>
+            </div>
+            <div class="ticks">
+                @foreach (var (i, t) in Steps(0, 2, 0.1))
+                {
+                    <i class="@TickClass(i, t, volume, 0, 1)"></i>
+                }
+            </div>
+            <input type="range" class="fader" aria-label="Volume" min="0" max="2" step="0.1" data-home="1"
+                   value="@volume" style="--p:@Inv(Pct(volume, 0, 2))" @oninput="OnVolumeChange" />
+        </section>
+
+        <section class="module">
+            <div class="head">
+                <span class="label @Status(serror)">
+                    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 14 4-4" /><path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>SPEED
+                </span>
+                <button class="toggle @(preserverPitch ? "on" : "")" data-click role="switch" aria-checked="@(preserverPitch ? "true" : "false")"
+                        title="Keep the original pitch when changing speed" @onclick="PreservePitch">
+                    <span class="sw"></span>@(preserverPitch ? "KEEP PITCH" : "PITCH DROPS")
+                </button>
+                <span class="readout @(speed == 1 ? "idle" : "")">@speed.ToString("0.00", Ci)<small>×</small></span>
+            </div>
+            <div class="ticks">
+                @foreach (var (i, t) in Steps(0.5, 2, 0.1))
+                {
+                    <i class="@TickClass(i, t, speed, 1, 1)"></i>
+                }
+            </div>
+            <input type="range" class="fader" aria-label="Speed" min="0.5" max="2" step="0.1" data-home="1"
+                   value="@speed" style="--a:@Inv(Math.Min(Pct(speed, 0.5, 2), 1 / 3.0));--p:@Inv(Math.Max(Pct(speed, 0.5, 2), 1 / 3.0))" @oninput="OnSpeedChange" />
+        </section>
+
+        <section class="module">
+            <div class="head">
+                <span class="label @Status(rerror)">
+                    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5" /><path d="M8 19V9" opacity=".85" /><path d="M12 19v-7" opacity=".7" /><path d="M16 19v-4" opacity=".55" /><path d="M20 19v-2" opacity=".4" /></svg>REVERB
+                </span>
+                <div class="seg @(reverb == 0 ? "idle" : "")" style="--i:@(currentReverbOption - 1)">
+                    <span class="knob"></span>
+                    <button class="@(currentReverbOption == 1 ? "on" : "")" data-click @onclick="() => setReverbOption(1)">COVE</button>
+                    <button class="@(currentReverbOption == 2 ? "on" : "")" data-click @onclick="() => setReverbOption(2)">STUDIO</button>
+                    <button class="@(currentReverbOption == 3 ? "on" : "")" data-click @onclick="() => setReverbOption(3)">STADIUM</button>
+                </div>
+                <span class="readout @(reverb == 0 ? "idle" : "")">@((reverb * 100).ToString("0", Ci))<small>%</small></span>
+            </div>
+            <div class="ticks">
+                @foreach (var (i, t) in Steps(0, 1, 0.05))
+                {
+                    <i class="@TickClass(i, t, reverb, 0, null)"></i>
+                }
+            </div>
+            <input type="range" class="fader" aria-label="Reverb" min="0" max="1" step="0.01"
+                   value="@reverb" style="--p:@Inv(Pct(reverb, 0, 1))" @oninput="OnReverbChange" />
+        </section>
+    </div>
+
+    @if (showReconnect)
     {
-        <div class="terminal-body">
-
-        <div class="control-section">
-            <div class="control-header">
-                <span class="bracket">[</span><span class="property">volume</span><span class="bracket">]</span>
-                <span class="value">@volume.ToString("F1")</span>
-            </div>
-            <input type="range" min="0" max="2" step="0.1" value="@volume" @oninput="OnVolumeChange" class="slider" />
-            <div class="range-labels">
-                <span>0.0</span>
-                <span>2.0</span>
-            </div>
-        </div>
-
-        <div class="control-section">
-            <div class="control-header">
-                <span class="bracket">[</span><span class="property">speed</span><span class="bracket">]</span>
-                <span class="value">@speed.ToString("F1")x</span>
-            </div>
-            <input type="range" min="0.5" max="2" step="0.1" value="@speed" @oninput="OnSpeedChange" class="slider" />
-            <div class="range-labels">
-                <span>0.5x</span>
-                <span> { granular time stretch && pitch preserved }</span>
-                <span>2.0x</span>
-            </div>
-        </div>
-
-        <div class="control-section">
-            <div class="control-header">
-                <span class="bracket">[</span><span class="property">reverb</span><span class="bracket">]</span>
-                <span class="value">@reverb.ToString("P0")</span>
-            </div>
-            <input type="range" min="0" max="1" step="0.01" value="@reverb" @oninput="OnReverbChange" class="slider" />
-            <div class="range-labels">
-                <span>0%</span>
-                <span> { low pass filter applied }</span>
-                <span>100%</span>
-            </div>
-            <div class="reverb-grid">
-                <div class="reverb-box">
-                        <h1>/cove\</h1>
-                </div>
-                <div class="reverb-box">
-                    <h1>|studio| </h1>
-                </div>
-                <div class="reverb-box">
-                    <h1>\stadium/</h1>
-                </div>
-            </div>
-        </div>
-       
-        @* <div class="status-line">
-            <span class="status-ok">✓</span> <span class="status-text">settings applied</span>
-        </div> *@
-        <div class="status-line">
-            @if(verror == 2)
-            {
-                <span class="status-ok">✓</span>
-            } else
-            {
-                <span class="status-notok">✗</span>
-            }
-            
-            
-            <span class="status-text">volume applied</span>
-            <span class="status-text"> | </span>
-            @if (serror == 2)
-            {
-                <span class="status-ok">✓</span>
-            }
-            else
-            {
-                <span class="status-notok">✗</span>
-            }
-
-            <span class="status-text">speed applied</span>
-            <span class="status-text"> | </span>
-            @if (rerror == 2)
-            {
-                <span class="status-ok">✓</span>
-            }
-            else
-            {
-                <span class="status-notok">✗</span>
-            }
-
-            <span class="status-text">reverb applied</span>
-        </div>
-        </div>
-    } else if (currentTheme == 1)
-    {
-        <div class="terminal-body">
-
-            <div class="control-section">
-                <div class="control-header">
-                    <span class="property">volume
-                        @if (verror == 2)
-                        {
-                            <span class="status-ok">✓</span>
-                        }
-                        else
-                        {
-                            <span class="status-notok">✗</span>
-                        }
-                    </span>
-                    
-                    <span class="value">@volume.ToString("F1")</span>
-                </div>
-                <input type="range" min="0.1" max="2" step="0.1" value="@volume" @oninput="OnVolumeChange" class="slider" />
-                <div class="range-labels">
-                    <span>0.1</span>
-                    <span>2.0</span>
-                </div>
-            </div>
-
-            <div class="control-section">
-                <div class="control-header">
-                    <span class="property">speed
-                        @if (serror == 2)
-                        {
-                            <span class="status-ok">✓</span>
-                        }
-                        else
-                        {
-                            <span class="status-notok">✗</span>
-                        }
-                    </span>
-                    <div class="reverb-grid">
-                        <div class="pitch-box" @onclick="(() => PreservePitch())" style="@pitch">
-                            <h1>preserve pitch</h1>
-                        </div>
-                    </div>
-                    @if(speed == 1.0)
-                    {
-                        <span class="value inactive">@speed.ToString("F1")x</span>
-                    } else
-                    {
-                        <span class="value active">@speed.ToString("F1")x</span>
-                    }
-
-                </div>
-                <input type="range" min="0.5" max="2" step="0.1" value="@speed" @oninput="OnSpeedChange" class="slider" />
-                <div class="range-labels">
-                    <span>0.5x</span>
-                    <span>granular time stretch && pitch preserved</span>
-                    <span>2.0x</span>
-                </div>
-            </div>
-
-            <div class="control-section">
-                <div class="control-header">
-                    <span class="property">reverb
-                        @if (rerror == 2)
-                        {
-                            <span class="status-ok">✓</span>
-                        }
-                        else
-                        {
-                            <span class="status-notok">✗</span>
-                        }
-                    </span>
-                    <div class="reverb-grid">
-                        @if (reverb == 0.0)
-                        {
-                            <div class="reverb-box inactive-r" @onclick="(() => setReverbOption(1))" style="@cov">
-                                <h1>cove</h1>
-                            </div>
-                            <div class="reverb-box inactive-r" @onclick="(() => setReverbOption(2))" style="@stu">
-                                <h1>studio</h1>
-                            </div>
-                            <div class="reverb-box inactive-r" @onclick="(() => setReverbOption(3))" style="@sta">
-                                <h1>stadium</h1>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="reverb-box" @onclick="(() => setReverbOption(1))" style="@cov">
-                                <h1>cove</h1>
-                            </div>
-                            <div class="reverb-box" @onclick="(() => setReverbOption(2))" style="@stu">
-                                <h1>studio</h1>
-                            </div>
-                            <div class="reverb-box" @onclick="(() => setReverbOption(3))" style="@sta">
-                                <h1>stadium</h1>
-                            </div>
-                        }
-
-                    </div>
-                    @if(reverb == 0.0)
-                    {
-                        <span class="value inactive">@reverb.ToString("P0")</span>
-                    }
-                    else
-                    {
-                        <span class="value active">@reverb.ToString("P0")</span>
-					}
-                </div>
-                <input type="range" min="0" max="1" step="0.01" value="@reverb" @oninput="OnReverbChange" class="slider" />
-                <div class="range-labels">
-                    <span>0%</span>
-                    <span>low pass filter applied</span>
-                    <span>100%</span>
-                </div>
-                
-            </div>
-
-            @* <div class="status-line">
-            <span class="status-ok">✓</span> <span class="status-text">settings applied</span>
-        </div> *@
-            
-        </div>
+        <footer class="foot">
+            <span class="warn">Can't reach this tab. Some pages (chrome://, Web Store) are blocked.</span>
+            <button class="btn" data-click @onclick="Reload">RELOAD</button>
+        </footer>
     }
 </div>

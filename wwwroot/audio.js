@@ -17,17 +17,39 @@ window.saveSettings = async function (volume, speed, reverb, reverboption, prese
     
 };
 
+// Reloads the active tab and resolves once it has finished loading.
 window.reload = function () {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.tabs.reload(tabs[0].id);
+    return new Promise(resolve => {
+        chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+            if (!tab) return resolve();
+            const onUpdated = (id, info) => {
+                if (id === tab.id && info.status === "complete") {
+                    chrome.tabs.onUpdated.removeListener(onUpdated);
+                    resolve();
+                }
+            };
+            chrome.tabs.onUpdated.addListener(onUpdated);
+            chrome.tabs.reload(tab.id);
+        });
     });
 }
 
+// Resolves once the content script is actually in the page, so settings sent right
+// after aren't lost to "Receiving end does not exist".
 window.start = function () {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-        chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: ["content-script.js"]
+    return new Promise(resolve => {
+        chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+            if (!tab) return resolve({ success: false, error: "No active tab" });
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ["content-script.js"]
+            }, () => {
+                if (chrome.runtime.lastError) {
+                    resolve({ success: false, error: chrome.runtime.lastError.message });
+                } else {
+                    resolve({ success: true, error: null });
+                }
+            });
         });
     });
 }

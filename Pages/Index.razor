@@ -1,99 +1,45 @@
-﻿@page "/index.html"
+@page "/index.html"
 @inherits IndexPage
+@inject IJSRuntime JS
 <link href="SoundPitchExtension.styles.css" rel="stylesheet" />
 
-<div class="terminal">
-    <div class="terminal-header">
-        <span class="dot red"></span>
-        <span class="dot yellow"></span>
-        <span class="dot green"></span>
-        <a class="title" href="https://shaafyousaf.me" target="_blank">made by Shaaf Yousaf</a>
-    </div>
-    <div class="terminal-body">
-        <div class="hero-section">
-            <div class="version-tag">V1.9.3 - MIT Lisence</div>
-            <h1 class="hero-title">Slowed<br>Enhanced</h1>
-            <p class="hero-subtitle">Your audio toolkit is ready</p>
+<div class="welcome">
+    <div class="haze" aria-hidden="true"></div>
 
-            <div class="contribute-msg">
-                Know <strong>C# or JavaScript?</strong> This extension is now Open Source —
-                fix a bug, add a feature, or just poke around. Next update will include your addition.
-            </div>
+    <main class="hero">
+        <div class="tag">V2 · MIT LICENSE</div>
+        <h1 class="title">Slowed Enhanced</h1>
+        <p class="subtitle">Your audio toolkit is ready</p>
 
-            <div class="actions">
-                <a class="btn-primary" href="https://github.com/shaafyousaf/Slowed-Enhanced" target="_blank"> ⌥ View Source on GitHub</a>
-                <a class="btn-secondary" href="https://github.com/shaafyousaf/Slowed-Enhanced/issues" target="_blank">Report a Bug</a>
-            </div>
-
-
+        <div class="scope-wrap">
+            <canvas class="scope" aria-hidden="true"
+                    data-speed="0.8" data-vol="1.3" data-rev="0.4" data-pitch="1" data-legend="0"></canvas>
         </div>
 
-        @* <div style="flex: 1; display: flex; flex-direction: column; overflow-y: scroll;     scrollbar-width: none;">
+        <p class="contribute">
+            Know <strong>C# or JavaScript?</strong> This extension is now Open Source —
+            fix a bug, add a feature, or just poke around. Next update will include your addition.
+        </p>
 
+        <div class="actions">
+            <a class="btn primary" href="https://github.com/shaafyousaf/Slowed-Enhanced" target="_blank">View Source on GitHub</a>
+            <a class="btn" href="https://github.com/shaafyousaf/Slowed-Enhanced/issues" target="_blank">Report a Bug</a>
+        </div>
+    </main>
 
-            <div class="content-section" style="flex: 1;">
-                <div class="section-header">
-                    <h2 class="section-title">Core Features</h2>
-                </div>
-                <div class="specs-list">
-                    <div class="spec-item">
-                        <div class="spec-name">Reset</div>
-                        <div class="spec-value">Instant</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-name">Volume</div>
-                        <div class="spec-value">0–2x</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-name">Speed</div>
-                        <div class="spec-value">0.5–2x</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-name">Reverb</div>
-                        <div class="spec-value">3 modes</div>
-                    </div>
-                </div>
-            </div>
-        </div> *@
-    </div>
+    <footer class="foot">
+        <a class="btn" href="https://shaafyousaf.me" target="_blank">made by Shaaf Yousaf</a>
+    </footer>
 </div>
 
-
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        background: linear-gradient(45deg, black, #434c7e54, #001b34);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        background-size: 400% 400%;
-        justify-content: center;
-        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-        padding: 20px;
-        animation: backBodyAnim 15s infinite;
-    }
-
-
-
-    @@keyframes backBodyAnim {
-        0%
-
-    {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 0%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-
-    }
+    html, body { margin: 0; border: 0; background: #040405; }
 </style>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender) await JS.InvokeVoidAsync("scope.start");
+    }
+}
