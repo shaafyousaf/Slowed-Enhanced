@@ -1,21 +1,17 @@
-/* One-time welcome page: same borderless black & white look as the popup. */
+/* One-time welcome page: name, version, the wave, three links. */
 .welcome {
     --ink: #f3f4f6;
     --dim: rgba(243, 244, 246, 0.55);
-    --faint: rgba(243, 244, 246, 0.2);
+    --faint: rgba(243, 244, 246, 0.22);
     --fill: rgba(243, 244, 246, 0.07);
-    --blue: 120, 176, 255;
     --sans: 'Futura Cyrillic', 'JakartaSans', sans-serif;
-    position: relative;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 56px 24px 28px;
-    overflow: hidden;
-    isolation: isolate;
-    background: #040405;
+    padding: 48px 24px;
+    /* a single, still hint of blue behind the content */
+    background: radial-gradient(60vw 50vh at 30% 40%, rgba(120, 176, 255, 0.09), transparent 70%), #040405;
     color: var(--ink);
     font-family: var(--sans);
     font-weight: 400;
@@ -23,74 +19,36 @@
 
 .welcome * { box-sizing: border-box; margin: 0; }
 
-/* faint CRT scanlines */
-.welcome::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.014) 0 1px, transparent 1px 3px);
-}
+.sheet { width: 100%; max-width: 560px; display: flex; flex-direction: column; align-items: flex-start; }
 
-/* ambient blue haze */
-.haze { position: absolute; inset: 0; z-index: -1; pointer-events: none; filter: blur(80px); }
-.haze::before, .haze::after { content: ''; position: absolute; border-radius: 50%; }
-.haze::before {
-    width: 46vw; height: 38vh; left: 8vw; top: 10vh;
-    background: radial-gradient(closest-side, rgba(var(--blue), 0.32), transparent);
-    animation: drift 16s ease-in-out infinite alternate;
+.title {
+    font-family: Brownist, var(--sans); font-weight: 400;
+    font-size: clamp(44px, 8vw, 68px); line-height: 1;
 }
-.haze::after {
-    width: 52vw; height: 44vh; right: 0; bottom: 4vh;
-    background: radial-gradient(closest-side, rgba(var(--blue), 0.18), transparent);
-    animation: drift 21s ease-in-out infinite alternate-reverse;
-}
-@keyframes drift { to { transform: translate(6vw, 5vh) scale(1.15); } }
-
-.hero { width: 100%; max-width: 720px; display: flex; flex-direction: column; align-items: center; text-align: center; }
 
 .tag {
-    font: 600 10px/1 var(--sans); letter-spacing: 0.32em; color: var(--dim);
-    padding: 8px 10px 7px 13px; /* extra left pad balances the trailing letter-spacing */
+    margin-top: 14px; padding: 4px 8px 3px;
+    font: 500 12px/1.2 var(--sans); color: var(--dim);
     border: 1px solid var(--faint); border-radius: 4px;
 }
 
-.title {
-    margin-top: 20px;
-    font-family: Brownist, var(--sans); font-weight: 400;
-    font-size: clamp(48px, 9vw, 92px); line-height: 0.95;
-    text-shadow: 0 0 44px rgba(var(--blue), 0.45);
-}
-
-.subtitle { margin-top: 14px; font: 300 19px/1.4 var(--sans); color: var(--dim); }
-
-/* animated preview wave (drawn by popup-ui.js), fading out at the sides */
+/* animated wave (drawn by popup-ui.js) */
 .scope-wrap {
-    position: relative; width: 100%; height: 96px; margin: 30px 0 6px;
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
-    mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+    position: relative; width: 100%; height: 80px; margin: 36px 0;
+    -webkit-mask-image: linear-gradient(to right, #000 85%, transparent);
+    mask-image: linear-gradient(to right, #000 85%, transparent);
 }
 .scope { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
-
-.contribute { max-width: 580px; margin-top: 30px; font: 400 16.5px/1.6 var(--sans); color: var(--dim); }
-.contribute strong { font-weight: 600; color: var(--ink); }
-
-.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 22px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
 .btn {
-    font: 600 11px/1 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none;
-    color: var(--ink); background: var(--fill); padding: 14px 22px 13px; border-radius: 999px;
-    transition: background 0.2s, box-shadow 0.2s, transform 0.08s;
+    font: 500 13px/1 var(--sans); text-decoration: none; color: var(--ink);
+    background: var(--fill); padding: 10px 14px; border-radius: 6px;
+    transition: background 0.15s;
 }
-.btn:hover { background: rgba(255, 255, 255, 0.13); box-shadow: 0 0 22px rgba(var(--blue), 0.3); }
-.btn:active { transform: scale(0.97); }
-.btn:focus-visible { outline: 1px solid rgba(var(--blue), 0.9); outline-offset: 3px; }
-.btn.primary { background: rgba(255, 255, 255, 0.93); color: #050505; box-shadow: 0 0 26px rgba(var(--blue), 0.45); }
-.btn.primary:hover { background: #fff; box-shadow: 0 0 34px rgba(var(--blue), 0.7); }
-
-.foot { margin-top: 56px; }
-
-
-@media (prefers-reduced-motion: reduce) {
-    .haze::before, .haze::after { animation: none; }
-}
+.btn:hover { background: rgba(243, 244, 246, 0.14); }
+.btn:focus-visible { outline: 1px solid var(--dim); outline-offset: 2px; }
+.btn.primary { background: var(--ink); color: #050505; }
+.btn.primary:hover { background: #fff; }
+.btn.quiet { background: none; color: var(--dim); }
+.btn.quiet:hover { color: var(--ink); background: var(--fill); }

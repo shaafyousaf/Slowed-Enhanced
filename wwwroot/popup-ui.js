@@ -20,7 +20,7 @@
         return ac;
     }
 
-    function tick(level, freq) {
+    function tick(level, freq, delay = 0) {
         if (TICK_VOLUME <= 0) return;
         try {
             const c = audio();
@@ -33,9 +33,39 @@
             const g = c.createGain();
             g.gain.value = level * TICK_VOLUME;
             src.connect(bp).connect(g).connect(c.destination);
-            src.start();
+            src.start(c.currentTime + delay);
         } catch { /* audio is a nicety; never break the UI */ }
     }
+
+    // A short soft tone, optionally gliding from `from` to `to` Hz. Peaks near the ticks' level.
+    function tone(from, to, dur, level = 1, delay = 0) {
+        if (TICK_VOLUME <= 0) return;
+        try {
+            const c = audio();
+            const t = c.currentTime + delay;
+            const osc = c.createOscillator();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(from, t);
+            if (to !== from) osc.frequency.exponentialRampToValueAtTime(to, t + dur);
+            const g = c.createGain();
+            const peak = 0.3 * level * TICK_VOLUME;
+            g.gain.setValueAtTime(0.0001, t);
+            g.gain.exponentialRampToValueAtTime(peak, t + 0.006);   // fast, click-free attack
+            g.gain.exponentialRampToValueAtTime(0.0001, t + dur);  // soft decay
+            osc.connect(g).connect(c.destination);
+            osc.start(t);
+            osc.stop(t + dur + 0.02);
+        } catch { }
+    }
+
+    // Each kind of button has its own sound.
+    const SOUNDS = {
+        reset: () => tone(620, 180, 0.22, 1.1),                         // falling "back to zero"
+        switchOn: () => { tick(1.6, 1200); tick(1.4, 2400, 0.04); tone(660, 880, 0.09, 0.5, 0.04); },  // click-clack, rising
+        switchOff: () => { tick(1.6, 2400); tick(1.4, 1200, 0.04); tone(880, 660, 0.09, 0.5, 0.04); }, // clack-click, falling
+        room: n => { const f = [587, 440, 587, 784][n] || 587; tone(f, f, 0.16); },                       // cove low, stadium high
+        other: () => tick(1.6, 900)
+    };
 
     // One tick per slider step, rising slightly in pitch with the value. Passing the
     // "home" value (data-home, e.g. 1.0x) gives a deeper detent click.
@@ -54,7 +84,15 @@
     }, true);
 
     document.addEventListener('pointerdown', e => {
-        if (e.target.closest?.('[data-click]')) tick(1.6, 900);
+        const el = e.target.closest?.('[data-click]');
+        if (el) {
+            const kind = el.dataset.click;
+            if (kind === 'reset') SOUNDS.reset();
+            // the switch still shows its old state here, so "on" means it's about to turn off
+            else if (kind === 'switch') (el.classList.contains('on') ? SOUNDS.switchOff : SOUNDS.switchOn)();
+            else if (kind === 'room') SOUNDS.room(Number(el.dataset.room));
+            else SOUNDS.other();
+        }
         else try { audio(); } catch { } // wake the audio on the first press so the first slider tick isn't lost
     }, true);
 
